@@ -27,6 +27,12 @@ const seedEmployees = async() => {
   console.log('disconnected');
 }
 
+export const addEmployee = (name) => {
+const lastEmployee = employees[employees.lenght - 1]
+  employees.push(createEmployee())
+  return createEmployee() 
+}
+
 await db.connect();
 await seedEmployees();
 await db.end();

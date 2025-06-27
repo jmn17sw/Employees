@@ -30,6 +30,11 @@ export async function getEmployees() {
  */
 export async function getEmployee(id) {
   // TODO
+  const sql =`
+  SELECT * FROM movies WHERE id=$1
+  `;
+  const { rows: [employeeById] } = await client.query(sql, [id])
+  return employeeById;
 }
 
 /**
@@ -38,6 +43,15 @@ export async function getEmployee(id) {
  */
 export async function updateEmployee({ id, name, birthday, salary }) {
   // TODO
+  const sql = `
+  UPDATE employees
+  SET name=$1, birthday=$2, salary=$3
+  WHERE
+  VALUES id=$4
+  RETURNING *
+  `;
+  const { rows: [updatedEmployee] } = await client.query(sql, [name, birthday, salary])
+  return updatedEmployee;
 }
 
 /**
@@ -46,4 +60,10 @@ export async function updateEmployee({ id, name, birthday, salary }) {
  */
 export async function deleteEmployee(id) {
   // TODO
+  const sql = `
+  DELETE * FROM empployees WHERE id=$1
+  RETURNING *;
+  `;
+  const { rows: [deletedEmployee] } = await client.query(sql, [id])
+  return deletedEmployee
 }
